@@ -16,7 +16,7 @@ public class StudentManagementApplication {
 
 	@Bean
     public ServletRegistrationBean jerseyServlet(){
-        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/jersey/*");
+        ServletRegistrationBean registration = new ServletRegistrationBean(new ServletContainer(), "/*");
         // our rest resources will be available in the path /jersey/*
         registration.addInitParameter(ServletProperties.JAXRS_APPLICATION_CLASS, JerseyConfig.class.getName());
         return registration;
