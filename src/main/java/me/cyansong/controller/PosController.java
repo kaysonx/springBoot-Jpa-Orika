@@ -37,12 +37,6 @@ public class PosController {
     @POST
     @Path("orders")
     public void createOrder(Map<String, List<OrderItem>> orderMap) {
-        //   {
-        //       "order":[
-        //       {"barcode":"item1","count":5},
-        //       {"barcode":"item2","count":2.3}
-        //         ]
-        //   }
         System.out.println(orderMap.get("order"));
     }
 }
