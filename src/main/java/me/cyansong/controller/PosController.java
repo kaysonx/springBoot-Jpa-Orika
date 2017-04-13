@@ -19,30 +19,30 @@ public class PosController {
     @GET
     @Path("items")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String, Object> getItems(){
+    public Map<String, Object> getItems() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("items",LoadResources.loadAllItems().stream().map(item -> item.toJson()).collect(Collectors.toList()));
+        map.put("items", LoadResources.loadAllItems().stream().map(item -> item.toJson()).collect(Collectors.toList()));
         return map;
     }
 
     @GET
     @Path("promotions")
     @Produces(MediaType.APPLICATION_JSON)
-    public Map<String,Object> getPromotions(){
+    public Map<String, Object> getPromotions() {
         HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("promotions",LoadResources.loadAllPromotions().stream().map(promotion -> promotion.toJson()).collect(Collectors.toList()));
+        map.put("promotions", LoadResources.loadAllPromotions().stream().map(promotion -> promotion.toJson()).collect(Collectors.toList()));
         return map;
     }
 
     @POST
     @Path("orders")
-    public void createOrder(Map<String,List<OrderItem>> orderMap){
+    public void createOrder(Map<String, List<OrderItem>> orderMap) {
         //   {
-     //       "order":[
-     //       {"barcode":"item1","count":5},
-     //       {"barcode":"item2","count":2.3}
-	//         ]
-     //   }
+        //       "order":[
+        //       {"barcode":"item1","count":5},
+        //       {"barcode":"item2","count":2.3}
+        //         ]
+        //   }
         System.out.println(orderMap.get("order"));
     }
 }

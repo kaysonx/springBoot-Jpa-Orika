@@ -11,26 +11,30 @@ import javax.ws.rs.core.Response;
 public class ClassController {
 
     @GET
-    @Path("{classId}/students/{studentId}/{studentCourse}")
+    @Path("{studentClass}/students/{studentId}/{studentCourse}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentCourse(@HeaderParam("class") String clazz,
-                                   @HeaderParam("teacherCourse") String teacherCourse,
-                                   @PathParam("classId")String classId,
-                                   @PathParam("studentId")String studentId,
-                                   @PathParam("studentCourse")String studentCourse){
-        if(!studentCourse.toLowerCase().equals(teacherCourse.toLowerCase())){
-            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: course not match!").build();
+    public Response getStudentCourse(@HeaderParam("teacherClass") String teacherClass,
+                                     @HeaderParam("teacherCourse") String teacherCourse,
+                                     @PathParam("studentClass") String studentClass,
+                                     @PathParam("studentId") String studentId,
+                                     @PathParam("studentCourse") String studentCourse) {
+        if(!studentClass.toLowerCase().equals(teacherClass.toLowerCase())){
+            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: teacher class not match!").build();
         }
+        if (!studentCourse.toLowerCase().equals(teacherCourse.toLowerCase())) {
+            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: teacher course not match!").build();
+        }
+
         StudentMock student = new StudentMockData().getStudents()
                 .stream()
                 .filter(studentMock -> studentMock.getStrId().equals(studentId))
                 .findAny()
                 .orElseThrow(() -> new WebApplicationException(Response.Status.NOT_FOUND));
-        if(!student.getClassName().toLowerCase().equals(classId.toLowerCase())){
-            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: class not match!").build();
+        if (!student.getClassName().toLowerCase().equals(studentClass.toLowerCase())) {
+            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: student class not match!").build();
         }
         try {
-            Double score = StudentMockData.getStudentScore(student,studentCourse);
+            Double score = StudentMockData.getStudentScore(student, studentCourse);
             return Response.ok(score).build();
         } catch (Exception e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("wrong course name").build();

@@ -25,29 +25,29 @@ public class StudentController {
     @GET
     @Path("{stuId}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Student getStudent(@PathParam("stuId")Integer stuId,
-                              @Context StudentRepository studentRepository){
+    public Student getStudent(@PathParam("stuId") Integer stuId,
+                              @Context StudentRepository studentRepository) {
         return studentRepository.findOne(stuId);
     }
 
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public MappedStudent createStudent(Student student, @Context ContainerRequestContext requestContext,@Context StudentRepository studentRepository){
+    public MappedStudent createStudent(Student student, @Context ContainerRequestContext requestContext, @Context StudentRepository studentRepository) {
         System.out.println(requestContext.getUriInfo());
-        Student savedStudent =  studentRepository.save(student);
+        Student savedStudent = studentRepository.save(student);
         mapperFactory.classMap(Student.class, MappedStudent.class)
                 .field("name", "studentName")
                 .byDefault()
                 .register();
         MapperFacade mapper = mapperFactory.getMapperFacade();
-        MappedStudent mappedStudent = mapper.map(savedStudent,MappedStudent.class);
-        return  mappedStudent;
+        MappedStudent mappedStudent = mapper.map(savedStudent, MappedStudent.class);
+        return mappedStudent;
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Student> getAll(@Context StudentRepository studentRepository){
+    public List<Student> getAll(@Context StudentRepository studentRepository) {
         return studentRepository.getAll();
     }
 

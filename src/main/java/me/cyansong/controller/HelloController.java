@@ -9,7 +9,7 @@ import javax.ws.rs.core.MediaType;
 public class HelloController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public String hello(){
+    public String hello() {
         return "hello,jersey!";
     }
 }
