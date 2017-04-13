@@ -18,6 +18,7 @@ public class ClassController {
                                      @PathParam("studentClass") String studentClass,
                                      @PathParam("studentId") String studentId,
                                      @PathParam("studentCourse") String studentCourse) {
+        //soutp
         if(!studentClass.toLowerCase().equals(teacherClass.toLowerCase())){
             return Response.status(Response.Status.FORBIDDEN).entity("permission denied: teacher class not match!").build();
         }
@@ -28,11 +29,9 @@ public class ClassController {
         StudentMock student = new StudentMockData().getStudents()
                 .stream()
                 .filter(studentMock -> studentMock.getStrId().equals(studentId))
+                .filter(studentMock -> studentMock.getClassName().toLowerCase().equals(studentClass.toLowerCase()))
                 .findAny()
                 .orElseThrow(() -> new WebApplicationException(Response.Status.NOT_FOUND));
-        if (!student.getClassName().toLowerCase().equals(studentClass.toLowerCase())) {
-            return Response.status(Response.Status.FORBIDDEN).entity("permission denied: student class not match!").build();
-        }
         try {
             Double score = StudentMockData.getStudentScore(student, studentCourse);
             return Response.ok(score).build();
